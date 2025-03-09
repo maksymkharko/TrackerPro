@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackerPro - Календарь</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/calendarius.css">
+    <link rel="stylesheet" href="../styles/statusbarpro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="status-bar-pro">
+        <a href="https://t.me/clownades" class="brand-link">@clownades</a>
+        <div class="datetime-pro">
+            <span class="time"></span>
+            <span class="date"></span>
+        </div>
+    </div>
+
+    <div class="calendarius-container">
+        <div class="page-header">
+            <button class="edit-button">Изменить</button>
+            <button class="add-button">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <div class="calendarius-list"></div>
+    </div>
+
+    <!-- Модальное окно создания календаря -->
+    <div class="modal" id="createCalendarModal">
+        <div class="modal-content">
+            <h2>Новый календарь</h2>
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" id="calendarTitle" placeholder="Введите название календаря" maxlength="50">
+            </div>
+            <div class="form-group">
+                <label>Месяц</label>
+                <select id="calendarMonth">
+                    <option value="0">Январь</option>
+                    <option value="1">Февраль</option>
+                    <option value="2">Март</option>
+                    <option value="3">Апрель</option>
+                    <option value="4">Май</option>
+                    <option value="5">Июнь</option>
+                    <option value="6">Июль</option>
+                    <option value="7">Август</option>
+                    <option value="8">Сентябрь</option>
+                    <option value="9">Октябрь</option>
+                    <option value="10">Ноябрь</option>
+                    <option value="11">Декабрь</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Год</label>
+                <input type="number" id="calendarYear" min="2024" max="2100">
+            </div>
+            <div class="modal-buttons">
+                <button id="cancelCreate" class="cancel-button">Отмена</button>
+                <button id="saveCalendar" class="save-button">Создать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно просмотра календаря -->
+    <div class="modal" id="viewCalendarModal">
+        <div class="modal-content">
+            <h2 id="viewCalendarTitle"></h2>
+            <div class="calendar-header">
+                <div>Пн</div>
+                <div>Вт</div>
+                <div>Ср</div>
+                <div>Чт</div>
+                <div>Пт</div>
+                <div>Сб</div>
+                <div>Вс</div>
+            </div>
+            <div class="calendar-days"></div>
+            <div class="calendar-stats">
+                Отмечено <span id="selectedDays">0</span> из <span id="totalDays">0</span> дней
+            </div>
+            <div class="modal-buttons">
+                <button id="closeCalendarView" class="cancel-button">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Главная</span>
+        </a>
+        <a href="goals.html" class="nav-item">
+            <i class="fas fa-bullseye"></i>
+            <span>Цели</span>
+        </a>
+        <a href="events.html" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            <span>События</span>
+        </a>
+        <a href="calendarius.html" class="nav-item active">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Календарь</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Настройки</span>
+        </a>
+    </nav>
+
+    <script src="../js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="../js/Calendarius.js"></script>
+</body>
+</html> 
