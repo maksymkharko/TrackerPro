@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackerPro</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/statusbarpro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding: 32px;
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: calc(var(--status-bar-height) + 20px);
+        }
+
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            gap: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .app-icon:active {
+            transform: scale(0.9);
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .icon-wrapper.goals {
+            background: linear-gradient(135deg, #FF453A, #FF9F0A);
+        }
+
+        .icon-wrapper.events {
+            background: linear-gradient(135deg, #32D74B, #64D2FF);
+        }
+
+        .icon-wrapper.calendar {
+            background: linear-gradient(135deg, #0A84FF, #5E5CE6);
+        }
+
+        .app-icon span {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .nav-bar {
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar-pro">
+        <a href="https://t.me/clownades" class="brand-link">@clownades</a>
+        <div class="datetime-pro">
+            <span class="time"></span>
+            <span class="date"></span>
+        </div>
+    </div>
+
+    <div class="menu-container">
+        <h1 class="page-title">Меню приложений</h1>
+        <div class="menu-content">
+            <button class="menu-edit-button">Изменить</button>
+            <div class="app-grid">
+                <a href="pages/goals.html" class="app-icon">
+                    <div class="icon-wrapper goals">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <span>Цели</span>
+                    <button class="app-delete-btn">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </a>
+                <a href="pages/events.html" class="app-icon">
+                    <div class="icon-wrapper events">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <span>События</span>
+                    <button class="app-delete-btn">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </a>
+                <a href="pages/calendarius.html" class="app-icon">
+                    <div class="icon-wrapper calendar">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <span>Календарь</span>
+                    <button class="app-delete-btn">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item active">
+            <i class="fas fa-bars"></i>
+            <span>Меню</span>
+        </a>
+        <a href="pages/main.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Главная</span>
+        </a>
+        <a href="pages/settings.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Настройки</span>
+        </a>
+    </nav>
+
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editButton = document.querySelector('.menu-edit-button');
+            const appIcons = document.querySelectorAll('.app-icon');
+            const deleteButtons = document.querySelectorAll('.app-delete-btn');
+            let isEditMode = false;
+
+            editButton.addEventListener('click', () => {
+                isEditMode = !isEditMode;
+                editButton.textContent = isEditMode ? 'Готово' : 'Изменить';
+                appIcons.forEach((icon, index) => {
+                    icon.classList.toggle('edit-mode');
+                    icon.style.setProperty('--item-index', index);
+                });
+            });
+
+            deleteButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert('Ты дурак? Тут нельзя удалять приложения, это вообще-то веб приложение, я и так долго делал его, а ты удалить что-то хочешь, свинья неблагодарная! Таджик я знаю что ты нажал гандон ебаный. хуесос ты таджик и свинона🐷');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
