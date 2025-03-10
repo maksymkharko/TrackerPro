@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackerPro - Настройки</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/settings.css">
+    <link rel="stylesheet" href="../styles/statusbarpro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="status-bar-pro">
+        <a href="https://t.me/clownades" class="brand-link">@clownades</a>
+        <div class="datetime-pro">
+            <span class="time"></span>
+            <span class="date"></span>
+        </div>
+    </div>
+
+    <div class="settings-container">
+        <div class="settings-group">
+            <h2 class="settings-group-title">Страницы приложения</h2>
+            <div class="settings-list">
+                <a href="../index.html" class="settings-item">
+                    <div class="settings-item-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="settings-item-content">
+                        <div class="settings-item-title">Главная</div>
+                        <div class="settings-item-description">Обзор целей, событий и календарей</div>
+                    </div>
+                    <div class="settings-item-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                <a href="goals.html" class="settings-item">
+                    <div class="settings-item-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="settings-item-content">
+                        <div class="settings-item-title">Цели</div>
+                        <div class="settings-item-description">Управление целями и задачами</div>
+                    </div>
+                    <div class="settings-item-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                <a href="events.html" class="settings-item">
+                    <div class="settings-item-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="settings-item-content">
+                        <div class="settings-item-title">События</div>
+                        <div class="settings-item-description">Планирование и отслеживание событий</div>
+                    </div>
+                    <div class="settings-item-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                <a href="calendarius.html" class="settings-item">
+                    <div class="settings-item-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="settings-item-content">
+                        <div class="settings-item-title">Календарь</div>
+                        <div class="settings-item-description">Календарь привычек и отслеживание прогресса</div>
+                    </div>
+                    <div class="settings-item-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="settings-group">
+            <h2 class="settings-group-title">Управление данными</h2>
+            <div class="settings-list">
+                <div class="settings-item" id="exportButton">
+                    <div class="settings-item-icon">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <div class="settings-item-content">
+                        <div class="settings-item-title">Экспорт данных</div>
+                        <div class="settings-item-description">Сохранить все данные для переноса на другое устройство</div>
+                    </div>
+                    <div class="settings-item-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="settings-item" id="importButton">
+                    <div class="settings-item-icon">
+                        <i class="fas fa-file-import"></i>
+                    </div>
+                    <div class="settings-item-content">
+                        <div class="settings-item-title">Импорт данных</div>
+                        <div class="settings-item-description">Восстановить данные с другого устройства</div>
+                    </div>
+                    <div class="settings-item-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для экспорта -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <h2>Экспорт данных</h2>
+            <p class="modal-description">Скопируйте этот текст и сохраните его в надежном месте:</p>
+            <div class="export-container">
+                <textarea id="exportData" readonly></textarea>
+                <button class="copy-button" id="copyExportData">
+                    <i class="fas fa-copy"></i> Копировать
+                </button>
+            </div>
+            <div class="modal-buttons">
+                <button class="cancel-button" id="closeExportModal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для импорта -->
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <h2>Импорт данных</h2>
+            <p class="modal-description">Вставьте сохраненный ранее текст:</p>
+            <div class="import-container">
+                <textarea id="importData" placeholder="Вставьте данные здесь"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="cancel-button" id="closeImportModal">Отмена</button>
+                <button class="save-button" id="confirmImport">Импортировать</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Главная</span>
+        </a>
+        <a href="goals.html" class="nav-item">
+            <i class="fas fa-bullseye"></i>
+            <span>Цели</span>
+        </a>
+        <a href="events.html" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            <span>События</span>
+        </a>
+        <a href="calendarius.html" class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Календарь</span>
+        </a>
+        <a href="settings.html" class="nav-item active">
+            <i class="fas fa-cog"></i>
+            <span>Настройки</span>
+        </a>
+    </nav>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/Settings.js"></script>
+</body>
+</html> 

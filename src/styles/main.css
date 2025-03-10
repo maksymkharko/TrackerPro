@@ -1,0 +1,568 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    /* Base variables */
+    --status-bar-height: 44px;
+    --nav-bar-height: 83px;
+    
+    /* Common shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.16);
+    --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
+    
+    /* Common transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.4s ease;
+
+    /* Основные цвета */
+    --background-primary: #121212;
+    --background-secondary: #1E1E1E;
+    --background-tertiary: #2D2D2D;
+    --card-background: #262626;
+    
+    /* Текст */
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-tertiary: rgba(255, 255, 255, 0.6);
+    
+    /* Акценты */
+    --accent-color: #0A84FF;
+    --accent-color-light: rgba(10, 132, 255, 0.15);
+    --accent-color-dark: #0066CC;
+    
+    /* Статусы */
+    --success-color: #32D74B;
+    --warning-color: #FF9F0A;
+    --error-color: #FF453A;
+    
+    /* Интерактивные состояния */
+    --hover-color: rgba(255, 255, 255, 0.08);
+    --active-color: rgba(255, 255, 255, 0.12);
+    --border-color: rgba(255, 255, 255, 0.15);
+    
+    /* Тени */
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --modal-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    
+    /* Специальные эффекты */
+    --glass-background: rgba(30, 30, 30, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    
+    /* Статус бар и навигация */
+    --status-bar-bg: rgba(18, 18, 18, 0.85);
+    --nav-bar-bg: rgba(18, 18, 18, 0.85);
+
+    /* iOS specific */
+    --ios-blue: #0A84FF;
+    --ios-gray: #98989D;
+    --ios-background: #000000;
+    --text-color: #FFFFFF;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.5;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Нижняя навигация */
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-bar-height);
+    background: var(--glass-background);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid var(--glass-border);
+    padding-bottom: 20px;
+    box-shadow: var(--glass-shadow);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-secondary);
+    gap: 4px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: all var(--transition-fast);
+}
+
+.nav-item.active {
+    color: var(--accent-color);
+    background: var(--accent-color-light);
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+    background: var(--active-color);
+}
+
+.nav-item i {
+    font-size: 24px;
+    margin-bottom: 2px;
+}
+
+.nav-item span {
+    font-size: 12px;
+}
+
+/* Основной контент */
+#main-content {
+    flex: 1;
+    padding: calc(var(--status-bar-height) + 20px) 20px calc(var(--nav-bar-height) + 20px) 20px;
+    overflow-y: auto;
+}
+
+/* Экран приветствия */
+.welcome-screen {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-screen h1 {
+    font-size: 32px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* Карточки статистики */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.stat-card {
+    background: var(--card-background);
+    padding: 24px;
+    border-radius: 16px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card i {
+    font-size: 32px;
+    color: var(--accent-color);
+    margin-bottom: 16px;
+}
+
+.stat-card h3 {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 1200px) {
+    :root {
+        --side-panel-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    #app {
+        grid-template-columns: 1fr;
+    }
+    
+    .side-panel {
+        display: none;
+    }
+    
+    #main-content {
+        margin: 0;
+        padding: 20px;
+    }
+}
+
+/* Page Transitions */
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease-out;
+    padding: 0 16px;
+}
+
+.page-enter {
+    transform: translateX(100%);
+}
+
+.page-enter-active {
+    transform: translateX(0);
+}
+
+.page-exit {
+    transform: translateX(0);
+}
+
+.page-exit-active {
+    transform: translateX(-100%);
+}
+
+/* iOS-style button */
+.ios-button {
+    background: var(--ios-blue);
+    color: var(--text-color);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.ios-button:active {
+    opacity: 0.7;
+}
+
+/* Унифицированные стили для кнопок */
+.button,
+.edit-button,
+.add-button,
+.save-button,
+.cancel-button,
+.start-button,
+.delete-button,
+.calendar-delete-btn,
+.event-delete-btn,
+.goal-delete-btn,
+.todo-delete-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Основные действия (сохранить, создать, начать) */
+.save-button,
+.start-button {
+    background: var(--accent-color);
+    color: white;
+    padding: 14px 24px;
+}
+
+.save-button:active,
+.start-button:active {
+    background: var(--accent-color-dark);
+    transform: scale(0.98);
+}
+
+/* Отмена и второстепенные действия */
+.cancel-button {
+    background: var(--background-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.cancel-button:active {
+    background: var(--background-tertiary);
+    transform: scale(0.98);
+}
+
+/* Кнопки в шапке (изменить, добавить) */
+.edit-button,
+.add-button {
+    color: var(--accent-color);
+    padding: 8px 16px;
+}
+
+.edit-button {
+    font-size: 17px;
+}
+
+.add-button {
+    font-size: 24px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+}
+
+.edit-button:active,
+.add-button:active {
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+/* Кнопки удаления */
+.delete-button,
+.calendar-delete-btn,
+.event-delete-btn,
+.goal-delete-btn,
+.todo-delete-btn {
+    color: var(--error-color);
+    padding: 8px;
+    opacity: 0.8;
+}
+
+.delete-button:active,
+.calendar-delete-btn:active,
+.event-delete-btn:active,
+.goal-delete-btn:active,
+.todo-delete-btn:active {
+    opacity: 1;
+    transform: scale(0.95);
+}
+
+/* Иконки в кнопках */
+.button i,
+.edit-button i,
+.add-button i,
+.save-button i,
+.cancel-button i,
+.start-button i,
+.delete-button i,
+.calendar-delete-btn i,
+.event-delete-btn i,
+.goal-delete-btn i,
+.todo-delete-btn i {
+    font-size: 1.1em;
+}
+
+/* Отключенное состояние */
+.button:disabled,
+.edit-button:disabled,
+.add-button:disabled,
+.save-button:disabled,
+.cancel-button:disabled,
+.start-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Модальные окна */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--background-secondary);
+    border-radius: 20px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: var(--modal-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 24px;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.modal-buttons button {
+    flex: 1;
+}
+
+/* Поля ввода */
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+select,
+textarea {
+    width: 100%;
+    background: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="datetime-local"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* Form groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Унифицированные стили для карточек */
+.card {
+    background: var(--card-background);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    border: 1px solid var(--border-color);
+}
+
+.card:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Пустые состояния */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: var(--background-secondary);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+}
+
+.empty-state-text {
+    color: var(--text-secondary);
+    font-size: 17px;
+    text-align: center;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+/* Текст */
+p {
+    color: var(--text-secondary);
+    margin-bottom: 1em;
+}
+
+/* Кнопки */
+.button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+}
+
+.button:active {
+    transform: scale(0.96);
+    box-shadow: var(--shadow-sm);
+    background: var(--accent-color-dark);
+}
+
+.button.secondary {
+    background: var(--background-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+/* Шапка страницы */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: var(--status-bar-height);
+    z-index: 100;
+    padding: 16px 20px;
+    margin: 0 -20px;
+    margin-bottom: 24px;
+    background: var(--background-primary);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Позиционирование кнопок в шапке */
+.page-header .edit-button {
+    position: absolute;
+    left: 20px;
+}
+
+.page-header .add-button {
+    position: absolute;
+    right: 20px;
+} 

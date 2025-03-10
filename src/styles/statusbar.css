@@ -1,0 +1,30 @@
+#status-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--status-bar-height);
+    background-color: var(--status-bar-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    z-index: 1000;
+}
+
+.status-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.time-date {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+} 

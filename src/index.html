@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackerPro</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/statusbarpro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .stats-bar {
+            background: var(--card-background);
+            margin: calc(var(--status-bar-height) + 12px) 20px 20px;
+            padding: 16px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--accent-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 20px;
+        }
+
+        .stat-info {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .welcome-message h1 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .welcome-message p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* Стили для списка дел */
+        .todo-container {
+            padding: 0 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding: 16px 0;
+        }
+
+        .todo-header h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+            text-align: center;
+            width: 100%;
+        }
+
+        .todo-buttons {
+            position: absolute;
+            right: 0;
+            display: flex;
+            gap: 12px;
+        }
+
+        .edit-button {
+            position: absolute;
+            left: 0;
+        }
+
+        .add-button {
+            position: absolute;
+            right: 0;
+        }
+
+        .edit-button, .add-button {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            font-size: 17px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .add-button {
+            font-size: 24px;
+        }
+
+        .edit-button:active,
+        .add-button:active {
+            opacity: 0.6;
+        }
+
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .todo-item {
+            background: var(--card-background);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .todo-item.edit-mode {
+            background: var(--background-primary);
+        }
+
+        .todo-drag-handle {
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: grab;
+            margin-right: 12px;
+            display: none;
+        }
+
+        .edit-mode .todo-drag-handle {
+            display: block;
+        }
+
+        .todo-title {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .todo-delete-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--error-color);
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .edit-mode .todo-delete-btn {
+            display: block;
+        }
+
+        /* Модальное окно */
+        .add-todo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .add-todo-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--background-secondary);
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-content h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .todo-input {
+            width: 100%;
+            background: var(--background-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .todo-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            background: var(--background-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .save-button {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+        }
+
+        .modal-buttons button:active {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar-pro">
+        <a href="https://t.me/clownades" class="brand-link">@clownades</a>
+        <div class="datetime-pro">
+            <span class="time"></span>
+            <span class="date"></span>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-icon">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Целей</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">
+                <i class="fas fa-calendar"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Событий</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Календарей</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="todo-container">
+        <div class="todo-header">
+            <button class="edit-button">Изменить</button>
+            <h2>Список дел</h2>
+            <button class="add-button">+</button>
+        </div>
+        <div class="todo-list" id="todoList">
+            <!-- Todo items will be added here -->
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления дела -->
+    <div class="add-todo-modal">
+        <div class="modal-content">
+            <h2>Новое дело</h2>
+            <input type="text" class="todo-input" placeholder="Введите название дела" maxlength="100">
+            <div class="modal-buttons">
+                <button class="cancel-button">Отмена</button>
+                <button class="save-button">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Главная</span>
+        </a>
+        <a href="pages/goals.html" class="nav-item">
+            <i class="fas fa-bullseye"></i>
+            <span>Цели</span>
+        </a>
+        <a href="pages/events.html" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            <span>События</span>
+        </a>
+        <a href="pages/calendarius.html" class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Календарь</span>
+        </a>
+        <a href="pages/settings.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Настройки</span>
+        </a>
+    </nav>
+
+    <script src="js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="js/Home.js"></script>
+</body>
+</html> 
